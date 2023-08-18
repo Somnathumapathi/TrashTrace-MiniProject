@@ -5,63 +5,72 @@ import 'package:toast/toast.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 //import 'package:trashtag/server.dart';
 
-class THome extends StatefulWidget {
-  const THome({super.key});
+class TrashTagFragment extends StatefulWidget {
+  const TrashTagFragment({super.key});
 
   @override
-  State<THome> createState() => _THomeState();
+  State<TrashTagFragment> createState() => _TrashTagFragmentState();
 }
 
-class _THomeState extends State<THome> {
+class _TrashTagFragmentState extends State<TrashTagFragment> {
   String? productKey;
   String? garbageKey;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: InkWell(
+            onTap: () async {
+              //Scan Product
+              String pKey =
+                  await BarcodeScanner.scan() as String; //barcode scnner
+              setState(() {
+                productKey = pKey;
+              });
+              //Scan Garbage
+              String gKey =
+                  await BarcodeScanner.scan() as String; //barcode scnner
+              setState(() {
+                garbageKey = gKey;
+              });
+
+              // add2dustbin(productKey, garbageKey).then((x) {
+              //   print("You recieved $x Coins");
+              //   Toast.show("You recieved $x Coins",
+              //       duration: Toast.lengthLong, gravity: Toast.bottom);
+              // });
+            },
+            child: const CircleAvatar(
+                radius: 70,
+                child: Icon(
+                  Icons.delete_outline,
+                  size: 50,
+                )),
+          ),
+        ),
+        const SizedBox(height: 20.0),
+        Text(
+          "$productKey\n$garbageKey",
+          style: GoogleFonts.luckiestGuy(color: Colors.blue),
+        )
+      ],
+    );
+  }
+}
+
+class THome extends StatelessWidget {
+  const THome({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("TrashTag Home"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: InkWell(
-              onTap: () async {
-                //Scan Product
-                String pKey =
-                    await BarcodeScanner.scan() as String; //barcode scnner
-                setState(() {
-                  productKey = pKey;
-                });
-                //Scan Garbage
-                String gKey =
-                    await BarcodeScanner.scan() as String; //barcode scnner
-                setState(() {
-                  garbageKey = gKey;
-                });
-
-                // add2dustbin(productKey, garbageKey).then((x) {
-                //   print("You recieved $x Coins");
-                //   Toast.show("You recieved $x Coins",
-                //       duration: Toast.lengthLong, gravity: Toast.bottom);
-                // });
-              },
-              child: const CircleAvatar(
-                  radius: 70,
-                  child: Icon(
-                    Icons.delete_outline,
-                    size: 50,
-                  )),
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          Text(
-            "$productKey\n$garbageKey",
-            style: GoogleFonts.luckiestGuy(color: Colors.blue),
-          )
-        ],
-      ),
+      body: TrashTagFragment(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

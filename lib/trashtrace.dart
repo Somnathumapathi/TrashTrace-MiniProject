@@ -23,7 +23,7 @@ class _TrashTraceState extends State<TrashTrace> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/TrashTraceBg.png'),
+            image: AssetImage('assets/TrashTraceBg.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -85,16 +85,17 @@ class _TrashTraceState extends State<TrashTrace> {
                 height: 10,
               ),
               ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.developer_mode),
-                  label: const Text('Dev Home'))
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Home(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.developer_mode),
+                label: const Text('Dev Home'),
+              )
             ]),
           ),
         ),
