@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+//import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:trashtrace/home.dart';
+import 'package:trashtrace/login.dart';
+import 'package:trashtrace/register.dart';
 
 class TrashTrace extends StatefulWidget {
   const TrashTrace({super.key});
@@ -14,29 +18,86 @@ class _TrashTraceState extends State<TrashTrace> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TrashTrace'),
-        backgroundColor: const Color.fromARGB(255, 5, 130, 61),
+        backgroundColor: Colors.green,
       ),
-      body: const Center(child: Text('Home')),
-      bottomNavigationBar: const GNav(
-        backgroundColor: Color.fromARGB(255, 5, 130, 61),
-        color: Colors.white,
-        activeColor: Colors.white,
-        tabBackgroundColor: Color.fromARGB(153, 5, 185, 86),
-        gap: 7,
-        padding: EdgeInsets.all(16),
-        tabMargin: EdgeInsets.all(5),
-        tabs: [
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/TrashTraceBg.png'),
+            fit: BoxFit.cover,
           ),
-          GButton(
-            icon: Icons.backpack,
-            text: 'TrashTag',
+        ),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Welcome to TrashTrace',
+                style: GoogleFonts.lato(
+                    fontSize: 20,
+                    color: Colors.brown,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Log in or Register to continue',
+                style: GoogleFonts.lato(color: Colors.blue),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.login),
+                    label: const Text('  Log in  '),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.person),
+                    label: const Text('Register'),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.developer_mode),
+                  label: const Text('Dev Home'))
+            ]),
           ),
-          GButton(icon: Icons.backpack, text: 'Binoculars'),
-          GButton(icon: Icons.backpack, text: 'RecycleX'),
-        ],
+        ),
       ),
     );
   }
