@@ -1,7 +1,7 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toast/toast.dart';
+//import 'package:toast/toast.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 //import 'package:trashtag/server.dart';
 

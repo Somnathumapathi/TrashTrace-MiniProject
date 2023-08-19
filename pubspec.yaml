@@ -39,6 +39,9 @@ dependencies:
   google_fonts:
   barcode_scan2: ^4.2.4
   toast: ^0.3.0
+  google_maps_flutter: ^2.4.0
+  geolocator: ^10.0.0
+  url_launcher: ^6.1.12
 
 dev_dependencies:
   flutter_test:
