@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trashtrace/binoculars/dustbindetails.dart';
 import 'package:trashtrace/data/models/dustbin.dart';
 import 'package:trashtrace/data/dustbin_data.dart';
+import 'package:location/location.dart' as loc;
+
+import '../utils.dart';
 
 const LatLng currentLocation = LatLng(12.9094890, 77.5668655);
 
@@ -15,6 +20,9 @@ class Binoculars extends StatefulWidget {
 }
 
 class _BinocularsState extends State<Binoculars> {
+  final loc.Location location = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+
   late GoogleMapController mapController;
   late Position userPosition;
 
@@ -25,6 +33,11 @@ class _BinocularsState extends State<Binoculars> {
   }
 
   void _getCurrentLocation() async {
+    await Utils.initalizeLocationServices(
+      context: context,
+      locationInstance: location,
+      locationUpdater: () {},
+    );
     userPosition = await Geolocator.getCurrentPosition();
   }
 
@@ -35,9 +48,8 @@ class _BinocularsState extends State<Binoculars> {
         onMapCreated: (controller) {
           mapController = controller;
         },
-        initialCameraPosition: const CameraPosition(
-          target: currentLocation,
-        ),
+        initialCameraPosition:
+            const CameraPosition(target: currentLocation, zoom: 14),
         markers: DustbinData.dustbins.map((dustbin) {
           return Marker(
             markerId: MarkerId('${dustbin.latitude}_${dustbin.longitude}'),

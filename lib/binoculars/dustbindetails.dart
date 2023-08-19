@@ -17,10 +17,11 @@ class DustbinDetails extends StatelessWidget {
       dustbin.latitude,
       dustbin.longitude,
     );
+    print(userPosition);
     return Column(
       children: [
         Text('Type : ${dustbin.type}'),
-        Text('Distance : $distance km'),
+        Text('Distance : ${(distance / 1000).toStringAsFixed(2)} km'),
         const SizedBox(
           height: 10,
         ),
@@ -28,8 +29,10 @@ class DustbinDetails extends StatelessWidget {
             onPressed: () async {
               String googleMapsUrl =
                   'https://www.google.com/maps/dir/?api=1&destination=${dustbin.latitude},${dustbin.longitude}';
-              if (await canLaunchUrl(googleMapsUrl as Uri)) {
-                await launchUrl(googleMapsUrl as Uri);
+              final uri = Uri.tryParse(googleMapsUrl);
+              if (uri == null) return;
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
               } else {
                 throw 'Could not launch Google Maps';
               }
