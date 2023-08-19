@@ -15,11 +15,10 @@ class Binoculars extends StatefulWidget {
 }
 
 class _BinocularsState extends State<Binoculars> {
-
   late GoogleMapController mapController;
   late Position userPosition;
-  
-@override
+
+  @override
   void initState() {
     super.initState();
     _getCurrentLocation();
@@ -34,14 +33,26 @@ class _BinocularsState extends State<Binoculars> {
     return Scaffold(
       body: GoogleMap(
         onMapCreated: (controller) {
-          
           mapController = controller;
-        
-        }, 
-        initialCameraPosition: CameraPosition(
+        },
+        initialCameraPosition: const CameraPosition(
           target: currentLocation,
         ),
-        markers: ,
+        markers: DustbinData.dustbins.map((dustbin) {
+          return Marker(
+            markerId: MarkerId('${dustbin.latitude}_${dustbin.longitude}'),
+            position: LatLng(dustbin.latitude, dustbin.longitude),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return DustbinDetails(
+                      dustbin: dustbin, userPosition: userPosition);
+                },
+              );
+            },
+          );
+        }).toSet(),
       ),
     );
   }
