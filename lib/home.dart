@@ -22,7 +22,15 @@ class _HomeState extends State<Home> {
     3: 'ReCyclX Home',
   };
 
+  final Map<int, Widget> pageLogos = {
+    0: Image.asset('assets/TrashTraceIcon1.png'),
+    1: Image.asset('assets/TrashTagLogo.png'),
+    2: Image.asset('assets/BinocularsLogo.png'),
+    3: Image.asset('assets/RecycleXIcon.png'),
+  };
+
   String appBar = 'TrashTrace';
+  Widget appBarLogo = Image.asset('assets/TrashTraceIcon1.png');
 
   getContent() {
     if (pageIndex == 0) {
@@ -67,6 +75,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBar),
+        leading: appBarLogo,
       ),
       body: getContent(),
       bottomNavigationBar: GNav(
@@ -80,6 +89,7 @@ class _HomeState extends State<Home> {
           setState(() {
             pageIndex = i;
             appBar = appBarTitles[i]!;
+            appBarLogo = pageLogos[i]!;
           });
         },
         gap: 7,

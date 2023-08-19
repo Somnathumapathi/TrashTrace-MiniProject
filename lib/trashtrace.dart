@@ -19,6 +19,7 @@ class _TrashTraceState extends State<TrashTrace> {
       appBar: AppBar(
         title: const Text('TrashTrace'),
         backgroundColor: Colors.green,
+        leading: Image.asset('assets/TrashTraceIcon1.png'),
       ),
       body: Container(
         decoration: const BoxDecoration(
