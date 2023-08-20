@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class TrashTraceBackend {
   static const String root =
-      'https://5425-2405-201-d036-284f-9db7-a90a-6e3a-ba8.ngrok-free.app/';
+      'https://3711-2405-201-d036-284f-9db7-a90a-6e3a-ba8.ngrok-free.app';
 
   Future<List<Dustbin>> getAllBins() async {
     List<Dustbin> dustbins = [];

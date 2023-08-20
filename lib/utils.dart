@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as loc;
@@ -20,38 +21,38 @@ class Utils {
     );
   }
 
-  static initalizeLocationServices({
+  static Future<Stream<loc.LocationData>?> initalizeLocationServices({
     required loc.Location locationInstance,
-    required Function locationUpdater,
+    required Function(loc.LocationData) onFirstLocationReceived,
     required BuildContext context,
-  }) {
+  }) async {
     if (Platform.isIOS) {
-      requestPermission();
-      locationInstance.changeSettings(
-          interval: 300, accuracy: loc.LocationAccuracy.high);
-      locationInstance.enableBackgroundMode(enable: true);
-      locationUpdater();
+      await requestPermission();
+      await locationInstance.changeSettings(
+        interval: 300,
+        accuracy: loc.LocationAccuracy.high,
+      );
+      await locationInstance.enableBackgroundMode(enable: true);
+      final locdata = await locationInstance.getLocation();
+      onFirstLocationReceived(locdata);
+      return locationInstance.onLocationChanged;
     } else {
       //Android
-      requestPermission().then((status) {
-        if (status) {
-          locationInstance
-              .changeSettings(
-                  interval: 300, accuracy: loc.LocationAccuracy.high)
-              .then((_) {
-            locationInstance.enableBackgroundMode(enable: true);
-          }).then((_) {
-            locationUpdater();
-          });
-        } else {
-          print('PERMISSION DENIED');
-          Utils.showUserDialog(
-            context: context,
-            content: 'We need location function to run the application!',
-            title: 'Permission not given',
-          );
-        }
-      });
+      final status = await requestPermission();
+      if (status) {
+        await locationInstance.enableBackgroundMode(enable: true);
+        final locdata = await locationInstance.getLocation();
+        onFirstLocationReceived(locdata);
+        return locationInstance.onLocationChanged;
+      } else {
+        print('PERMISSION DENIED');
+        // ignore: use_build_context_synchronously
+        Utils.showUserDialog(
+          context: context,
+          content: 'We need location function to run the application!',
+          title: 'Permission not given',
+        );
+      }
     }
   }
 
