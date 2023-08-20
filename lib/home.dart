@@ -34,16 +34,69 @@ class _HomeState extends State<Home> {
 
   getContent() {
     if (pageIndex == 0) {
-      return Center(
-        child: Text(
-          'TrashTrace Home',
-          style: GoogleFonts.luckiestGuy(fontSize: 30, color: Colors.blue),
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/TrashTraceBg.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  'Welcome to TrashTrace',
+                  style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.brown),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'About us',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {},
+                    label: const Text(
+                      'Help',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    icon: const Icon(
+                      Icons.help_outline,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.support_agent_outlined,
+                  color: Colors.blue,
+                ),
+                label: const Text(
+                  'Contact Us',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     } else if (pageIndex == 1) {
-      return TrashTagFragment();
+      return const TrashTagFragment();
     } else if (pageIndex == 2) {
-      return Binoculars();
+      return const Binoculars();
     } else if (pageIndex == 3) {
       return Center(
         child: Text(
@@ -52,7 +105,7 @@ class _HomeState extends State<Home> {
         ),
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   getFAB() {
