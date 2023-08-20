@@ -1,3 +1,7 @@
+# 21.08.2023
+- Manas:
+    - Created AuthSystem (login, register, logout) along with State persistence
+
 # 20.08.2023
 - Manas:
     - Fixed Google Maps Navigation Link to include origin & travel mode
@@ -8,6 +12,8 @@
     - Sepearated the Filtering Buttons into their own Components
     - Added MapZoom when we click on home FAB
     - Utils::initalizeLocationServices: Added awaits & made it return LocationStream
+- Somnath:
+    - Added More Dustbin Type Filters
 
 # 19.08.2023
 - Built App to a Certain Extent (Somnath)

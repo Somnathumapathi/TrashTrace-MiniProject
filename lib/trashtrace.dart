@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/home.dart';
 import 'package:trashtrace/login.dart';
 import 'package:trashtrace/register.dart';
@@ -13,6 +14,26 @@ class TrashTrace extends StatefulWidget {
 }
 
 class _TrashTraceState extends State<TrashTrace> {
+  runGateway() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('loggedin_username') != null) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) {
+          return Home();
+        }),
+        (route) => false,
+      );
+    } else {
+      print('Please Login!');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    runGateway();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +71,9 @@ class _TrashTraceState extends State<TrashTrace> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {

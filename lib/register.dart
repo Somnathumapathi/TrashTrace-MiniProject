@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/login.dart';
+import 'package:trashtrace/utils.dart';
+
+import 'backend/backend.dart';
+import 'home.dart';
 //import 'package:trashtag/server.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -55,18 +60,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               ElevatedButton(
                 child: const Text("Register"),
-                onPressed: () {
+                onPressed: () async {
                   print(uc.text);
                   print(pc.text);
                   print(nc.text);
-                  // register(nc.text, uc.text, pc.text).then((x) {
-                  //   if (x) {
-                  //     Navigator.of(context).push(MaterialPageRoute(
-                  //         builder: (context) => LoginScreen()));
-                  //   } else
-                  //     print("Not Done");
-                  //   //Go to Login
-                  // });
+                  final res = await TrashTraceBackend().register(
+                    username: uc.value.text,
+                    name: nc.value.text,
+                    password: pc.value.text,
+                  );
+                  if (res == true) {
+                    print('Register Successful!');
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('loggedin_username', uc.text);
+                    print('LoginData Saved Successfully!');
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) {
+                        return Home();
+                      }),
+                      (route) => false,
+                    );
+                  } else {
+                    Utils.showUserDialog(
+                      context: context,
+                      title: 'Register Failed',
+                      content: 'Could be a Server Issue',
+                    );
+                  }
                 },
               ),
               TextButton(
