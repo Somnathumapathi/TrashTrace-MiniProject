@@ -1,0 +1,6 @@
+======Changing Location Using Telnet======
+nano ~/.emulator_console_auth_token & copy token
+telnet localhost 5554
+auth <token>
+geo fix 77.58813373317656 12.924602551376156
+========================================

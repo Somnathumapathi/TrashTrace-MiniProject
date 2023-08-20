@@ -1,3 +1,14 @@
+# 20.08.2023
+- Manas:
+    - Fixed Google Maps Navigation Link to include origin & travel mode
+    - Included Dustbin Name in Dustbin Details
+    - Added LocationSubscription to track current User location over time
+    - Added New MarkerIcon for CurrentUserLocation
+    - Added LoadingIndicator until Dustbins & CurrentLocation are loaded
+    - Sepearated the Filtering Buttons into their own Components
+    - Added MapZoom when we click on home FAB
+    - Utils::initalizeLocationServices: Added awaits & made it return LocationStream
+
 # 19.08.2023
 - Built App to a Certain Extent (Somnath)
 - Manas: Fixed GNav
