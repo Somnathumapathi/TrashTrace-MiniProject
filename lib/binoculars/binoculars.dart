@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/binoculars/dustbindetails.dart';
+import 'package:trashtrace/binoculars/dustbinfilter.dart';
 import 'package:trashtrace/data/models/dustbin.dart';
 import 'package:location/location.dart' as loc;
 
@@ -246,101 +247,6 @@ class _BinocularsState extends State<Binoculars> {
                 )
               ],
             ),
-    );
-  }
-}
-
-class DustbinTypeFilterWidget extends StatelessWidget {
-  final Function(String) onFilterSelected;
-  const DustbinTypeFilterWidget({Key? key, required this.onFilterSelected})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.menu),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Filter Dustbins'),
-              content: Container(
-                height: 200,
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('MAMT');
-                      },
-                      child: const Text('MAMT'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () async {
-                        onFilterSelected('ALL');
-                      },
-                      child: const Text('ALL'),
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class DustbinDistanceFilterWidget extends StatelessWidget {
-  final TextEditingController radiusController;
-  final Function(double?) onRadiusSelected;
-  const DustbinDistanceFilterWidget({
-    Key? key,
-    required this.onRadiusSelected,
-    required this.radiusController,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.social_distance),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Distance Filter'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: radiusController,
-                    decoration: const InputDecoration(
-                        label: Text(
-                      'Distance (km)',
-                      style: TextStyle(color: Colors.black45),
-                    )),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final d = radiusController.value.text;
-                      if (d.isEmpty) {
-                        onRadiusSelected(null);
-                      } else {
-                        final radius = double.tryParse(d);
-                        onRadiusSelected(radius);
-                      }
-                    },
-                    child: const Text('Search'),
-                  )
-                ],
-              ),
-            );
-          },
-        );
-      },
     );
   }
 }

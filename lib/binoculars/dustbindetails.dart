@@ -22,38 +22,49 @@ class DustbinDetails extends StatelessWidget {
       dustbin.longitude,
     );
 
-    return Column(
-      children: [
-        Text('Name : ${dustbin.name}'),
-        Text('Type : ${dustbin.type}'),
-        Text('Distance : ${(distance / 1000).toStringAsFixed(2)} km'),
-        const SizedBox(
-          height: 10,
-        ),
-        ElevatedButton.icon(
-          onPressed: () async {
-            const rawUrl = 'https://www.google.com/maps/dir/?api=1';
-            final destination = '${dustbin.latitude},${dustbin.longitude}';
-            final origin = '${userPosition.latitude},${userPosition.longitude}';
-            String googleMapsURL = [
-              rawUrl,
-              'origin=$origin',
-              'destination=$destination',
-              'travelmode=walking',
-            ].join('&');
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Name : ${dustbin.name}'),
+          SizedBox(
+            height: 10,
+          ),
+          Text('Type : ${dustbin.type}'),
+          SizedBox(
+            height: 10,
+          ),
+          Text('Distance : ${(distance / 1000).toStringAsFixed(2)} km'),
+          const SizedBox(
+            height: 10,
+          ),
+          ElevatedButton.icon(
+            onPressed: () async {
+              const rawUrl = 'https://www.google.com/maps/dir/?api=1';
+              final destination = '${dustbin.latitude},${dustbin.longitude}';
+              final origin =
+                  '${userPosition.latitude},${userPosition.longitude}';
+              String googleMapsURL = [
+                rawUrl,
+                'origin=$origin',
+                'destination=$destination',
+                'travelmode=walking',
+              ].join('&');
 
-            final uri = Uri.tryParse(googleMapsURL);
-            if (uri == null) return;
-            if (await canLaunchUrl(uri)) {
-              await launchUrl(uri);
-            } else {
-              throw 'Could not launch Google Maps';
-            }
-          },
-          icon: const Icon(Icons.navigation),
-          label: const Text('Navigate'),
-        )
-      ],
+              final uri = Uri.tryParse(googleMapsURL);
+              if (uri == null) return;
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+              } else {
+                throw 'Could not launch Google Maps';
+              }
+            },
+            icon: const Icon(Icons.navigation),
+            label: const Text('Navigate'),
+          )
+        ],
+      ),
     );
   }
 }
