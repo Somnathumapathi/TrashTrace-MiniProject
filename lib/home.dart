@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:trashtrace/binoculars/binoculars.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +15,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int pageIndex = 0;
+  var url = Uri.parse('https://github.com/synapsecode/TrashTrace-MiniProject');
+  var murl = Uri.parse('https://www.instagram.com/somu_7704/');
 
   final Map<int, String> appBarTitles = {
     0: 'TrashTrace Home',
@@ -55,18 +58,31 @@ class _HomeState extends State<Home> {
                       color: Colors.brown),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Making Waste Management Better \n                 For Better Tomorrow',
+                style: GoogleFonts.lato(
+                    fontSize: 15, color: Color.fromARGB(255, 177, 166, 166)),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      launchUrl(url);
+                      print('Onpressed works');
+                    },
                     child: const Text(
                       'About us',
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      launchUrl(url);
+                    },
                     label: const Text(
                       'Help',
                       style: TextStyle(color: Colors.blue),
@@ -79,7 +95,9 @@ class _HomeState extends State<Home> {
                 ],
               ),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  launchUrl(murl);
+                },
                 icon: const Icon(
                   Icons.support_agent_outlined,
                   color: Colors.blue,

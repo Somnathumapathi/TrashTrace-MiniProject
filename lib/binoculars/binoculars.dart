@@ -137,7 +137,7 @@ class _BinocularsState extends State<Binoculars> {
     //CurrentUser
     markers.add(
       Marker(
-        markerId: MarkerId('cu'),
+        markerId: const MarkerId('cu'),
         position: currentUserPosition!,
         icon: cuMarkerIcon ??
             BitmapDescriptor.defaultMarkerWithHue(
@@ -217,7 +217,7 @@ class _BinocularsState extends State<Binoculars> {
                             print('Loaded Dustbin based on Distance!');
                           },
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         DustbinTypeFilterWidget(
                           onFilterSelected: (filter) async {
                             await getDustbinsBasedOnFilter(filter);
@@ -225,7 +225,7 @@ class _BinocularsState extends State<Binoculars> {
                             print('Loaded Dustbin based on Filter!');
                           },
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         FloatingActionButton(
                           backgroundColor: Colors.black,
                           onPressed: () async {
@@ -258,13 +258,13 @@ class DustbinTypeFilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      child: Icon(Icons.menu),
+      child: const Icon(Icons.menu),
       onPressed: () {
         showDialog(
           context: context,
           builder: (ctx) {
             return AlertDialog(
-              title: Text('Filter Dustbins'),
+              title: const Text('Filter Dustbins'),
               content: Container(
                 height: 200,
                 child: Column(
@@ -275,7 +275,7 @@ class DustbinTypeFilterWidget extends StatelessWidget {
                       },
                       child: const Text('MAMT'),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
                         onFilterSelected('ALL');
@@ -305,7 +305,7 @@ class DustbinDistanceFilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      child: Icon(Icons.social_distance),
+      child: const Icon(Icons.social_distance),
       onPressed: () {
         showDialog(
           context: context,
