@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:trashtrace/binoculars/binoculars.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +15,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int pageIndex = 0;
+  var url = Uri.parse('https://github.com/synapsecode/TrashTrace-MiniProject');
+  var murl = Uri.parse('https://www.instagram.com/somu_7704/');
 
   final Map<int, String> appBarTitles = {
     0: 'TrashTrace Home',
@@ -34,16 +37,84 @@ class _HomeState extends State<Home> {
 
   getContent() {
     if (pageIndex == 0) {
-      return Center(
-        child: Text(
-          'TrashTrace Home',
-          style: GoogleFonts.luckiestGuy(fontSize: 30, color: Colors.blue),
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/TrashTraceBg.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  'Welcome to TrashTrace',
+                  style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.brown),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Making Waste Management Better \n                 For Better Tomorrow',
+                style: GoogleFonts.lato(
+                    fontSize: 15, color: Color.fromARGB(255, 177, 166, 166)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      launchUrl(url);
+                      print('Onpressed works');
+                    },
+                    child: const Text(
+                      'About us',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      launchUrl(url);
+                    },
+                    label: const Text(
+                      'Help',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    icon: const Icon(
+                      Icons.help_outline,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  launchUrl(murl);
+                },
+                icon: const Icon(
+                  Icons.support_agent_outlined,
+                  color: Colors.blue,
+                ),
+                label: const Text(
+                  'Contact Us',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     } else if (pageIndex == 1) {
-      return TrashTagFragment();
+      return const TrashTagFragment();
     } else if (pageIndex == 2) {
-      return Binoculars();
+      return const Binoculars();
     } else if (pageIndex == 3) {
       return Center(
         child: Text(
@@ -52,7 +123,7 @@ class _HomeState extends State<Home> {
         ),
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   getFAB() {
