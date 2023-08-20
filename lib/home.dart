@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/binoculars/binoculars.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
+import 'package:trashtrace/trashtrace.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
@@ -106,6 +108,27 @@ class _HomeState extends State<Home> {
                   'Contact Us',
                   style: TextStyle(color: Colors.blue),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove('loggedin_username');
+                  print('Logged Out!');
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) {
+                      return TrashTrace();
+                    }),
+                    (route) => false,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                icon: const Icon(Icons.person),
+                label: const Text('Logout'),
               ),
             ],
           ),

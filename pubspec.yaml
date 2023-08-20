@@ -45,6 +45,7 @@ dependencies:
   location:
   permission_handler: ^8.1.4+2
   http:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

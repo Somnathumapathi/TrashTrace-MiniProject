@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trashtrace/backend/backend.dart';
+import 'package:trashtrace/home.dart';
 import 'package:trashtrace/register.dart';
+import 'package:trashtrace/utils.dart';
 //import 'package:trashtag/server.dart';
 
 //import 'home.dart';
@@ -50,9 +54,32 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 child: const Text("Login"),
-                onPressed: () {
+                onPressed: () async {
                   print(uc.text);
                   print(pc.text);
+
+                  final res = await TrashTraceBackend().login(
+                    username: uc.value.text,
+                    password: pc.value.text,
+                  );
+                  if (res == true) {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('loggedin_username', uc.text);
+                    print('LoginData Saved Successfully!');
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) {
+                        return Home();
+                      }),
+                      (route) => false,
+                    );
+                  } else {
+                    Utils.showUserDialog(
+                      context: context,
+                      title: 'Login Failed',
+                      content: 'Invalid Credentials ',
+                    );
+                  }
+
                   // login(uc.text, pc.text).then((x) {
                   //   if (x) {
                   //     Navigator.of(context).push(
