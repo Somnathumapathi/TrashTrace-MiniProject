@@ -1,6 +1,7 @@
 # 21.08.2023
 - Manas:
     - Created AuthSystem (login, register, logout) along with State persistence
+    - Added Ability to Modify Server Link from within the application
 
 # 20.08.2023
 - Manas:

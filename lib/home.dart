@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/binoculars/binoculars.dart';
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
@@ -164,12 +165,50 @@ class _HomeState extends State<Home> {
     return null;
   }
 
+  TextEditingController serverLinkController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBar),
         leading: appBarLogo,
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Change Server Link'),
+                        content: Container(
+                          child: TextField(
+                            controller: serverLinkController,
+                            decoration: const InputDecoration(
+                              label: Text(
+                                'Server Link',
+                                style: TextStyle(
+                                  color: Colors.black45,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () async {
+                                await setServerLink(
+                                    serverLinkController.value.text);
+                                setState(() {});
+                                Navigator.pop(context);
+                              },
+                              child: Text('Update'))
+                        ],
+                      );
+                    });
+              },
+              icon: Icon(Icons.data_array)),
+        ],
       ),
       body: getContent(),
       bottomNavigationBar: GNav(
