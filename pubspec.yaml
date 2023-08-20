@@ -44,6 +44,7 @@ dependencies:
   url_launcher:
   location:
   permission_handler: ^8.1.4+2
+  http:
 
 dev_dependencies:
   flutter_test:
