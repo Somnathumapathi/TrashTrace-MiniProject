@@ -58,8 +58,18 @@ class DustbinDistanceFilterWidget extends StatelessWidget {
 
 class DustbinTypeFilterWidget extends StatelessWidget {
   final Function(String) onFilterSelected;
-  const DustbinTypeFilterWidget({Key? key, required this.onFilterSelected})
+  DustbinTypeFilterWidget({Key? key, required this.onFilterSelected})
       : super(key: key);
+
+  final dustbinConfigs = [
+    {'label': 'MAMT', 'color': Colors.blue},
+    {'label': 'Non-Biodegradable', 'color': Colors.red},
+    {'label': 'Biodegradable', 'color': Colors.green},
+    {'label': 'Hazardous', 'color': Colors.orange},
+    {'label': 'E-Waste', 'color': Colors.yellow},
+    {'label': 'Recyclable', 'color': Colors.cyan},
+    {'label': 'ALL', 'color': Colors.black},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,68 +81,21 @@ class DustbinTypeFilterWidget extends StatelessWidget {
           builder: (ctx) {
             return AlertDialog(
               title: const Text('Filter Dustbins'),
-              content: Container(
-                height: 400,
+              content: SizedBox(
+                height: 350,
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('MAMT');
-                      },
-                      child: const Text('MAMT'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('Non-Biodegradable');
-                      },
-                      child: const Text('Non-Biodegradable'),
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('Biodegradable');
-                      },
-                      child: const Text('Biodegradable'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('Hazardous');
-                      },
-                      child: const Text('Hazardous'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('E-Waste');
-                      },
-                      child: const Text('E-Waste'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.yellow),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        onFilterSelected('Recyclable');
-                      },
-                      child: const Text('Recyclable'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.cyan),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () async {
-                        onFilterSelected('ALL');
-                      },
-                      child: const Text('ALL'),
-                    )
+                    for (final i in dustbinConfigs)
+                      ElevatedButton(
+                        onPressed: () {
+                          onFilterSelected(i['label'] as String);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size.fromWidth(300),
+                          backgroundColor: i['color'] as Color,
+                        ),
+                        child: Text(i['label'] as String),
+                      )
                   ],
                 ),
               ),

@@ -230,9 +230,9 @@ class _HomeState extends State<Home> {
         tabMargin: const EdgeInsets.all(5),
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
-          GButton(icon: Icons.one_x_mobiledata, text: 'TrashTag'),
+          GButton(icon: Icons.qr_code_scanner, text: 'TrashTag'),
           GButton(icon: Icons.pin_drop_rounded, text: 'Binoculars'),
-          GButton(icon: Icons.backpack, text: 'RecycleX'),
+          GButton(icon: Icons.recycling, text: 'RecycleX'),
         ],
       ),
       floatingActionButton: getFAB(),
