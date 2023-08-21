@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 //import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:toast/toast.dart';
 import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/BinOcculars/dustbindetails.dart';
 import 'package:trashtrace/BinOcculars/dustbinfilter.dart';
@@ -33,6 +34,8 @@ class _BinOccularsState extends State<BinOcculars> {
 
   double? radius;
 
+  bool settingPermisisonChangeNeeded = false;
+
   loadAssetMarkers() async {
     cuMarkerIcon = await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(size: Size(48, 48)),
@@ -60,7 +63,17 @@ class _BinOccularsState extends State<BinOcculars> {
     setState(() {
       loadingBins = true;
     });
-    dustbins = await TrashTraceBackend().getAllBins();
+    final z = await TrashTraceBackend().getAllBins();
+    if (z.result == null) {
+      // ignore: use_build_context_synchronously
+      Utils.showUserDialog(
+        context: context,
+        title: 'ERROR',
+        content: z.message,
+      );
+      return;
+    }
+    dustbins = z.result!;
     setState(() {
       loadingBins = false;
       dustbins = [...dustbins];
@@ -75,11 +88,21 @@ class _BinOccularsState extends State<BinOcculars> {
       await getDusbins();
     } else {
       if (currentUserPosition == null) return;
-      dustbins = await TrashTraceBackend().getProximalBins(
+      final z = await TrashTraceBackend().getProximalBins(
         lat: currentUserPosition!.latitude,
         lng: currentUserPosition!.longitude,
         radius: radius!,
       );
+      if (z.result == null) {
+        // ignore: use_build_context_synchronously
+        Utils.showUserDialog(
+          context: context,
+          title: 'ERROR',
+          content: z.message,
+        );
+        return;
+      }
+      dustbins = z.result!;
     }
     print("LATEST DUSTBINS => $dustbins");
     setState(() {
@@ -88,18 +111,34 @@ class _BinOccularsState extends State<BinOcculars> {
     });
   }
 
-  Future<void> _getCurrentLocation() async {
-    final sub = await Utils.initalizeLocationServices(
-      context: context,
-      locationInstance: location,
-      onFirstLocationReceived: (lc) {
-        if (lc.latitude == null || lc.longitude == null) return;
-        currentUserPosition = LatLng(lc.latitude!, lc.longitude!);
-        print('CurrentUserPosition Updated!');
-      },
-    );
-    if (sub == null) return;
-    locationSubscription = sub.listen((loc) {
+  Future<void> _getCurrentLocation([int retryCount = 0]) async {
+    Stream<loc.LocationData>? sub;
+    try {
+      sub = await Utils.initalizeLocationServices(
+        context: context,
+        locationInstance: location,
+        onFirstLocationReceived: (lc) {
+          if (lc.latitude == null || lc.longitude == null) return;
+          currentUserPosition = LatLng(lc.latitude!, lc.longitude!);
+          print('CurrentUserPosition Updated!');
+        },
+      );
+      if (sub == null) return;
+    } catch (e) {
+      print('EXCEPTION => $e');
+      ToastContext().init(context);
+      Toast.show('Accept Background Location Permission!');
+      if (retryCount > 5) {
+        Toast.show('Go to Settings & Change Location Permission');
+        setState(() {
+          settingPermisisonChangeNeeded = true;
+        });
+        return;
+      }
+      return _getCurrentLocation();
+    }
+
+    locationSubscription = sub!.listen((loc) {
       print('CurrentUserLocUpdated => $loc');
       currentUserPosition = LatLng(loc.latitude!, loc.longitude!);
       setState(() {});
@@ -191,62 +230,66 @@ class _BinOccularsState extends State<BinOcculars> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
               ),
             )
-          : Stack(
-              children: [
-                GoogleMap(
-                  onMapCreated: (controller) {
-                    mapController = controller;
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: currentUserPosition!,
-                    zoom: 14,
-                  ),
-                  markers: getMarkers(),
-                ),
-                Positioned(
-                  right: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        DustbinDistanceFilterWidget(
-                          radiusController: radiusController,
-                          onRadiusSelected: (r) async {
-                            radius = r;
-                            await getDustbinsAtDistance();
-                            Navigator.pop(context);
-                            print('Loaded Dustbin based on Distance!');
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        DustbinTypeFilterWidget(
-                          onFilterSelected: (filter) async {
-                            await getDustbinsBasedOnFilter(filter);
-                            Navigator.pop(context);
-                            print('Loaded Dustbin based on Filter!');
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        FloatingActionButton(
-                          backgroundColor: Colors.black,
-                          onPressed: () async {
-                            await mapController.animateCamera(
-                              CameraUpdate.newLatLng(currentUserPosition!),
-                            );
-                            await Future.delayed(const Duration(seconds: 1),
-                                () {
-                              mapController
-                                  .animateCamera(CameraUpdate.zoomBy(5));
-                            });
-                          },
-                          child: const Icon(Icons.home),
-                        ),
-                      ],
-                    ),
-                  ),
+          : settingPermisisonChangeNeeded
+              ? Center(
+                  child: Text('Go to Settings & Enable Location Permission'),
                 )
-              ],
-            ),
+              : Stack(
+                  children: [
+                    GoogleMap(
+                      onMapCreated: (controller) {
+                        mapController = controller;
+                      },
+                      initialCameraPosition: CameraPosition(
+                        target: currentUserPosition!,
+                        zoom: 14,
+                      ),
+                      markers: getMarkers(),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            DustbinDistanceFilterWidget(
+                              radiusController: radiusController,
+                              onRadiusSelected: (r) async {
+                                radius = r;
+                                await getDustbinsAtDistance();
+                                Navigator.pop(context);
+                                print('Loaded Dustbin based on Distance!');
+                              },
+                            ),
+                            const SizedBox(width: 5),
+                            DustbinTypeFilterWidget(
+                              onFilterSelected: (filter) async {
+                                await getDustbinsBasedOnFilter(filter);
+                                Navigator.pop(context);
+                                print('Loaded Dustbin based on Filter!');
+                              },
+                            ),
+                            const SizedBox(width: 5),
+                            FloatingActionButton(
+                              backgroundColor: Colors.black,
+                              onPressed: () async {
+                                await mapController.animateCamera(
+                                  CameraUpdate.newLatLng(currentUserPosition!),
+                                );
+                                await Future.delayed(const Duration(seconds: 1),
+                                    () {
+                                  mapController
+                                      .animateCamera(CameraUpdate.zoomBy(5));
+                                });
+                              },
+                              child: const Icon(Icons.home),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
     );
   }
 }

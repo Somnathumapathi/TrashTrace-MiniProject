@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/home.dart';
 import 'package:trashtrace/register.dart';
@@ -57,15 +58,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   print(uc.text);
                   print(pc.text);
-
+                  ToastContext().init(context);
+                  Toast.show('Logging In!');
                   final res = await TrashTraceBackend().login(
                     username: uc.value.text,
                     password: pc.value.text,
                   );
-                  if (res == true) {
+                  if (res.result == true) {
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString('loggedin_username', uc.text);
                     print('LoginData Saved Successfully!');
+                    Toast.show('Logged in!');
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
                         return Home();
@@ -73,20 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       (route) => false,
                     );
                   } else {
+                    // ignore: use_build_context_synchronously
                     Utils.showUserDialog(
                       context: context,
                       title: 'Login Failed',
-                      content: 'Invalid Credentials ',
+                      content: res.message,
                     );
                   }
-
-                  // login(uc.text, pc.text).then((x) {
-                  //   if (x) {
-                  //     Navigator.of(context).push(
-                  //         MaterialPageRoute(builder: (context) => Home()));
-                  //   } else
-                  //     print("Incorrect");
-                  // });
                 },
               ),
               TextButton(

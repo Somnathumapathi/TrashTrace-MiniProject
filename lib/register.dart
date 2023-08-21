@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:trashtrace/login.dart';
 import 'package:trashtrace/utils.dart';
 
@@ -61,19 +62,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
                 child: const Text("Register"),
                 onPressed: () async {
-                  print(uc.text);
-                  print(pc.text);
-                  print(nc.text);
+                  ToastContext().init(context);
+                  Toast.show('Registering!');
                   final res = await TrashTraceBackend().register(
                     username: uc.value.text,
                     name: nc.value.text,
                     password: pc.value.text,
                   );
-                  if (res == true) {
+                  if (res.result == true) {
                     print('Register Successful!');
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString('loggedin_username', uc.text);
                     print('LoginData Saved Successfully!');
+                    Toast.show('Registered!');
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
                         return Home();
@@ -81,10 +82,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       (route) => false,
                     );
                   } else {
+                    // ignore: use_build_context_synchronously
                     Utils.showUserDialog(
                       context: context,
                       title: 'Register Failed',
-                      content: 'Could be a Server Issue',
+                      content: res.message,
                     );
                   }
                 },

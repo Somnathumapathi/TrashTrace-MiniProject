@@ -4,11 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/data/models/dustbin.dart';
 import 'package:http/http.dart' as http;
 
+class ResponseType<T> {
+  T result;
+  String message;
+
+  ResponseType({
+    required this.result,
+    required this.message,
+  });
+}
+
 Future<String> getServerLink() async {
   final prefs = await SharedPreferences.getInstance();
   final srvr = prefs.getString('server_root_link');
-  return srvr ??
-      'https://1224-2405-201-d036-284f-9db7-a90a-6e3a-ba8.ngrok-free.app';
+  return srvr ?? 'https://trash-trace-backend.vercel.app';
 }
 
 Future<void> setServerLink(String link) async {
@@ -17,7 +26,7 @@ Future<void> setServerLink(String link) async {
 }
 
 class TrashTraceBackend {
-  Future<bool> register(
+  Future<ResponseType<bool>> register(
       {required String name,
       required String username,
       required String password}) async {
@@ -32,13 +41,13 @@ class TrashTraceBackend {
           {'name': name, 'username': username, 'password': password}),
     );
     if (res.statusCode == 200) {
-      return true;
+      return ResponseType(result: true, message: 'success');
     }
     print('ERROR => ${res.body}');
-    return false;
+    return ResponseType(result: true, message: res.body.toString());
   }
 
-  Future<bool> login(
+  Future<ResponseType<bool>> login(
       {required String username, required String password}) async {
     final root = await getServerLink();
     final uri = Uri.parse("$root/user/login");
@@ -55,33 +64,39 @@ class TrashTraceBackend {
       final resdata = jsonDecode(res.body);
       final succ = resdata['success'] ?? false;
       if (succ) {
-        return true;
+        return ResponseType(result: true, message: 'success');
       } else {
         print("ERROR ===> ${resdata['message']}");
-        return false;
+        return ResponseType(result: false, message: resdata['message']);
       }
     }
     print('ERROR => ${res.body}');
-    return false;
+    return ResponseType(result: false, message: res.body);
   }
 
-  Future<List<Dustbin>> getAllBins() async {
+  Future<ResponseType<List<Dustbin>?>> getAllBins() async {
     final root = await getServerLink();
 
     List<Dustbin> dustbins = [];
     final uri = Uri.parse("$root/binocculars/get_all");
     final res = await http.get(uri);
+
     if (res.statusCode == 200) {
       final resdata = jsonDecode(res.body);
       for (final x in resdata) {
         final d = Dustbin.fromJson(x);
         dustbins.add(d);
       }
+    } else {
+      return ResponseType(
+        result: null,
+        message: 'Server Side Error (${res.statusCode})',
+      );
     }
-    return dustbins;
+    return ResponseType(result: dustbins, message: 'success');
   }
 
-  Future<List<Dustbin>> getProximalBins({
+  Future<ResponseType<List<Dustbin>?>> getProximalBins({
     required double lat,
     required double lng,
     required double radius,
@@ -96,7 +111,12 @@ class TrashTraceBackend {
         final d = Dustbin.fromJson(x);
         dustbins.add(d);
       }
+    } else {
+      return ResponseType(
+        result: null,
+        message: 'Server Side Error (${res.statusCode})',
+      );
     }
-    return dustbins;
+    return ResponseType(result: dustbins, message: 'success');
   }
 }
