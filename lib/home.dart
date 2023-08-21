@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trashtrace/BinOcculars/binocculars.dart';
 import 'package:trashtrace/backend/backend.dart';
-import 'package:trashtrace/binoculars/binoculars.dart';
+
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
 import 'package:trashtrace/trashtrace.dart';
@@ -24,14 +25,14 @@ class _HomeState extends State<Home> {
   final Map<int, String> appBarTitles = {
     0: 'TrashTrace Home',
     1: 'TrashTag',
-    2: 'Binoculars',
+    2: 'BinOcculars',
     3: 'ReCyclX Home',
   };
 
   final Map<int, Widget> pageLogos = {
     0: Image.asset('assets/TrashTraceIcon1.png'),
     1: Image.asset('assets/TrashTagLogo.png'),
-    2: Image.asset('assets/BinocularsLogo.png'),
+    2: Image.asset('assets/BinOccularsLogo.png'),
     3: Image.asset('assets/RecycleXIcon.png'),
   };
 
@@ -138,7 +139,7 @@ class _HomeState extends State<Home> {
     } else if (pageIndex == 1) {
       return const TrashTagFragment();
     } else if (pageIndex == 2) {
-      return const Binoculars();
+      return const BinOcculars();
     } else if (pageIndex == 3) {
       return Center(
         child: Text(
@@ -231,7 +232,7 @@ class _HomeState extends State<Home> {
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
           GButton(icon: Icons.one_x_mobiledata, text: 'TrashTag'),
-          GButton(icon: Icons.pin_drop_rounded, text: 'Binoculars'),
+          GButton(icon: Icons.pin_drop_rounded, text: 'BinOcculars'),
           GButton(icon: Icons.backpack, text: 'RecycleX'),
         ],
       ),

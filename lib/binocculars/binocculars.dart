@@ -1,24 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+//import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trashtrace/backend/backend.dart';
-import 'package:trashtrace/binoculars/dustbindetails.dart';
-import 'package:trashtrace/binoculars/dustbinfilter.dart';
+import 'package:trashtrace/BinOcculars/dustbindetails.dart';
+import 'package:trashtrace/BinOcculars/dustbinfilter.dart';
 import 'package:trashtrace/data/models/dustbin.dart';
 import 'package:location/location.dart' as loc;
 
 import '../utils.dart';
 
-class Binoculars extends StatefulWidget {
-  const Binoculars({super.key});
+class BinOcculars extends StatefulWidget {
+  const BinOcculars({super.key});
 
   @override
-  State<Binoculars> createState() => _BinocularsState();
+  State<BinOcculars> createState() => _BinOccularsState();
 }
 
-class _BinocularsState extends State<Binoculars> {
+class _BinOccularsState extends State<BinOcculars> {
   final loc.Location location = loc.Location();
   late StreamSubscription<loc.LocationData> locationSubscription;
   TextEditingController radiusController = TextEditingController();
