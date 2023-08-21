@@ -54,6 +54,7 @@ class Utils {
         );
       }
     }
+    return null;
   }
 
   static Future<bool> requestPermission() async {
