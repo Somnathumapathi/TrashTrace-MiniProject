@@ -8,7 +8,7 @@ Future<String> getServerLink() async {
   final prefs = await SharedPreferences.getInstance();
   final srvr = prefs.getString('server_root_link');
   return srvr ??
-      'https://5ca9-2405-201-d036-284f-9db7-a90a-6e3a-ba8.ngrok-free.app';
+      'https://1224-2405-201-d036-284f-9db7-a90a-6e3a-ba8.ngrok-free.app';
 }
 
 Future<void> setServerLink(String link) async {
@@ -52,7 +52,14 @@ class TrashTraceBackend {
       ),
     );
     if (res.statusCode == 200) {
-      return true;
+      final resdata = jsonDecode(res.body);
+      final succ = resdata['success'] ?? false;
+      if (succ) {
+        return true;
+      } else {
+        print("ERROR ===> ${resdata['message']}");
+        return false;
+      }
     }
     print('ERROR => ${res.body}');
     return false;
