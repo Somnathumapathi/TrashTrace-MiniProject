@@ -50,7 +50,10 @@ class RecycleCentreCard extends StatelessWidget {
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.call),
+                icon: const Icon(
+                  Icons.call,
+                  color: Colors.blue,
+                ),
                 label: Text(
                   centre.contact,
                   style: const TextStyle(

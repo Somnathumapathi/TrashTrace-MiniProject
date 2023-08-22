@@ -83,6 +83,10 @@ flutter:
       - assets/RecycleX3.png
       - assets/RecycleX4.png
       - assets/RecycleCenter.jpeg
+      - assets/1.png
+      - assets/2.png
+      - assets/3.png
+      - assets/4.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
