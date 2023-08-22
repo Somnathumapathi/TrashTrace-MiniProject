@@ -46,6 +46,7 @@ dependencies:
   permission_handler: ^8.1.4+2
   http:
   shared_preferences:
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,11 @@ flutter:
       - assets/TrashTraceIcon1.png
       - assets/BinOccularsLogo.png
       - assets/TrashTagLogo.png
+      - assets/RecycleX1.png
+      - assets/RecycleX2.png
+      - assets/RecycleX3.png
+      - assets/RecycleX4.png
+      - assets/RecycleCenter.jpeg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
