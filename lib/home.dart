@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/BinOcculars/binocculars.dart';
 import 'package:trashtrace/backend/backend.dart';
+import 'package:trashtrace/recyclex/recyclex.dart';
 
 import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
@@ -141,12 +142,7 @@ class _HomeState extends State<Home> {
     } else if (pageIndex == 2) {
       return const BinOcculars();
     } else if (pageIndex == 3) {
-      return Center(
-        child: Text(
-          'ReCyclX Home',
-          style: GoogleFonts.luckiestGuy(fontSize: 30, color: Colors.blue),
-        ),
-      );
+      return const RecycleX();
     }
     return const SizedBox();
   }
