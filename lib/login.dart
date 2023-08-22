@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final uc = TextEditingController();
   final pc = TextEditingController();
+  bool showPassword = false;
   @override
   void dispose() {
     uc.dispose();
@@ -48,7 +49,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextField(
                 controller: pc,
-                decoration: const InputDecoration(hintText: "Password"),
+                obscureText: !showPassword,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                    icon: Icon(
+                        showPassword ? Icons.visibility : Icons.visibility_off),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,

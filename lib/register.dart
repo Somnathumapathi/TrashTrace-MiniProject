@@ -19,6 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final nc = TextEditingController();
   final uc = TextEditingController();
   final pc = TextEditingController();
+  bool showPassword = false;
 
   @override
   void dispose() {
@@ -53,8 +54,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: const InputDecoration(hintText: "Username"),
               ),
               TextField(
+                obscureText: !showPassword,
                 controller: pc,
-                decoration: const InputDecoration(hintText: "Password"),
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          showPassword = !showPassword;
+                        },
+                      );
+                    },
+                    icon: Icon(
+                        showPassword ? Icons.visibility : Icons.visibility_off),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
