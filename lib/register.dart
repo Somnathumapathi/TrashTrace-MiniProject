@@ -92,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Toast.show('Registered!');
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
-                        return Home();
+                        return const Home();
                       }),
                       (route) => false,
                     );
