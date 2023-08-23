@@ -45,6 +45,8 @@ class DustbinDetails extends StatelessWidget {
               final destination = '${dustbin.latitude},${dustbin.longitude}';
               final origin =
                   '${userPosition.latitude},${userPosition.longitude}';
+
+              //TODO: Try to use Intents here to directly open mobile app
               String googleMapsURL = [
                 rawUrl,
                 'origin=$origin',

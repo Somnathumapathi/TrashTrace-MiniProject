@@ -53,11 +53,11 @@ class _RecycleXState extends State<RecycleX> {
           const SizedBox(
             height: 20,
           ),
-          Text(
-            'Types',
-            style:
-                GoogleFonts.aBeeZee(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   'Types',
+          //   style:
+          //       GoogleFonts.aBeeZee(fontSize: 15, fontWeight: FontWeight.bold),
+          // ),
         ],
       ),
     );

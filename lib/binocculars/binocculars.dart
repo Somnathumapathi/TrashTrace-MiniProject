@@ -112,6 +112,7 @@ class _BinOccularsState extends State<BinOcculars> {
   }
 
   Future<void> _getCurrentLocation([int retryCount = 0]) async {
+    //TODO: Goes into infinite loop if i try more than twice
     Stream<loc.LocationData>? sub;
     try {
       sub = await Utils.initalizeLocationServices(
@@ -135,7 +136,7 @@ class _BinOccularsState extends State<BinOcculars> {
         });
         return;
       }
-      return _getCurrentLocation();
+      return _getCurrentLocation(retryCount++);
     }
 
     locationSubscription = sub!.listen((loc) {
