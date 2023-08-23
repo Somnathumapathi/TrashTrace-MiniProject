@@ -77,10 +77,11 @@ class _HomeState extends State<Home> {
                 height: 10,
               ),
               Text(
-                'Making Waste Management Better \n                 For Better Tomorrow',
+                'Making Waste Management Better\nFor Better Tomorrow',
                 style: GoogleFonts.lato(
                     fontSize: 15,
                     color: const Color.fromARGB(255, 177, 166, 166)),
+                textAlign: TextAlign.center,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -261,7 +262,7 @@ class _HomeState extends State<Home> {
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
           GButton(icon: Icons.qr_code_scanner, text: 'TrashTag'),
-          GButton(icon: Icons.pin_drop_rounded, text: 'Binoculars'),
+          GButton(icon: Icons.pin_drop_rounded, text: 'BinOcculars'),
           GButton(icon: Icons.recycling, text: 'RecycleX'),
         ],
       ),

@@ -42,14 +42,22 @@ class _RecycleXState extends State<RecycleX> {
             height: 20,
           ),
           Text(
-            'Nearby Recycle Centres',
+            'ReCyclX Partners',
             style:
                 GoogleFonts.aBeeZee(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 20,
           ),
-          RecycleCentreCard()
+          RecycleCentreCard(),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Types',
+            style:
+                GoogleFonts.aBeeZee(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
