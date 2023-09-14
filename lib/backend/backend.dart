@@ -18,7 +18,7 @@ class ResponseType<T> {
 Future<String> getServerLink() async {
   final prefs = await SharedPreferences.getInstance();
   final srvr = prefs.getString('server_root_link');
-  return srvr ?? 'https://trash-trace-backend.vercel.app';
+  return srvr ?? 'http://45.79.123.179';
 }
 
 Future<void> setServerLink(String link) async {
