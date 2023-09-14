@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -61,8 +63,8 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
           id: partner['id'],
           name: partner['name'],
           type: partner['type'],
-          contact: '9901552081',
-          imagePath: 'assets/RecycleCenter.jpeg',
+          contact: '9449320808',
+          imagePath: centerimages[partner['id']],
         ),
       ];
     }
@@ -100,22 +102,31 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
   //   RCXPartner(
   //     name: 'Muthu Recycle',
   //     type: 'All',
-  //     imagePath: 'assets/RecycleCenter.jpeg',
+  //     imagePath: 'assets/RecycleXpt.jpeg',
   //     contact: '9901552081',
   //   ),
   //   RCXPartner(
   //     name: 'Santhosh Recycle',
   //     type: 'Electrical',
-  //     imagePath: 'assets/RecycleCenter.jpeg',
+  //     imagePath: 'assets/RecycleXpt.jpeg',
   //     contact: '9449320808',
   //   ),
   //   RCXPartner(
   //     name: 'Kawasaki Recycle',
   //     type: 'Steel',
-  //     imagePath: 'assets/RecycleCenter.jpeg',
+  //     imagePath: 'assets/RecycleXpt.jpeg',
   //     contact: '7483070772',
   //   ),
   // ];
+
+  final centerimages = [
+    "assets/RecycleXpt3.webp",
+    "assets/RecycleXpt3.webp",
+    "assets/RecycleXpt.jpeg",
+    "assets/RecycleXpt.jpeg",
+    "assets/RecycleXpt2.jpeg",
+    "assets/RecycleXpt1.jpg",
+  ];
 
   void _openCentreDetails(BuildContext context, RCXPartner centre) {
     showModalBottomSheet<void>(
@@ -124,7 +135,10 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
         return Container(
           child: Column(
             children: [
-              Image.asset(centre.imagePath),
+              Image.asset(
+                centre.imagePath,
+                height: 250,
+              ),
               const SizedBox(
                 height: 20,
               ),
