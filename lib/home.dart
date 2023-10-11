@@ -6,7 +6,6 @@ import 'package:trashtrace/BinOcculars/binocculars.dart';
 import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/recyclex/recyclex.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:trashtrace/trashtag/scan.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
 import 'package:trashtrace/trashtrace.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -264,7 +264,7 @@ class TrashTraceBackend {
         'Content-Type': 'application/json',
       },
       body: jsonEncode(
-        {'uid': userId, 'qrCodeValue': qrCodeValue},
+        {'uid': userId, 'qrcode': qrCodeValue},
       ),
     );
     if (res.statusCode == 200) {

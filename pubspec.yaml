@@ -37,8 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_nav_bar: ^5.0.6
   google_fonts:
-  barcode_scan2: ^4.2.4
+  # barcode_scan2: ^4.2.4
   toast: ^0.3.0
+  qrscan: ^0.3.3
   google_maps_flutter:
   geolocator:
   url_launcher:

@@ -3,6 +3,7 @@
     - TrashTag: Added Working Logic to Scan and Add Item to Dusbin & Show updated points!
     - ReCyclX: Added the MyJobs Section & Job Booking Logic
     - Backend: Added the Latest Routes
+    - Changed BarCode Scanner => QRCode Scanner along with Permission Requesting Logic
 
 # 22.08.2023
 - Manas:

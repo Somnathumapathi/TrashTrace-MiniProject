@@ -1,13 +1,10 @@
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-//import 'package:toast/toast.dart';
-import 'package:trashtrace/trashtag/scan.dart';
-
+import 'package:trashtrace/utils.dart';
 import '../backend/backend.dart';
-//import 'package:trashtag/server.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class TrashTagFragment extends StatefulWidget {
   const TrashTagFragment({super.key});
@@ -68,26 +65,37 @@ class _TrashTagFragmentState extends State<TrashTagFragment> {
     );
   }
 
+  Future<String?> scanQR() async {
+    ToastContext().init(context);
+    final s = await Utils.requestCameraPermission();
+    if (!s) {
+      Toast.show('Camera Permission not given');
+      return null;
+    }
+    final res = await scanner.scan();
+    return res;
+  }
+
   onScanButtonPressed() async {
     if (mode == 'Product') {
       //Scan the product
-      final pKey = (await BarcodeScanner.scan()).rawContent;
-      if (pKey.isEmpty) return;
+      final pKey = await scanQR();
+      if (pKey == null) return;
       print("ProductKey: $pKey");
       setState(() {
         productKey = pKey;
         mode = 'Dustbin';
       });
     } else if (mode == 'Dustbin') {
-      final gKey = (await BarcodeScanner.scan()).rawContent;
-      if (gKey.isEmpty) return;
+      final gKey = await scanQR();
+      if (gKey == null) return;
       print("GarbageKey: $gKey");
       setState(() {
         garbageKey = gKey;
         mode = 'loading';
       });
       await add2dustbin();
-      initialize();
+      await initialize();
       setState(() {
         mode = 'Product';
       });
