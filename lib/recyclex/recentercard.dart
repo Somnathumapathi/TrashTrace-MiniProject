@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:trashtrace/backend/backend.dart';
 import 'package:trashtrace/data/models/recyclexmodel.dart';
 
 import '../utils.dart';
 
 class RecycleCentreCard extends StatefulWidget {
-  RecycleCentreCard({super.key});
+  final Function onJobBookedCallback;
+  const RecycleCentreCard({super.key, required this.onJobBookedCallback});
 
   @override
   State<RecycleCentreCard> createState() => _RecycleCentreCardState();
@@ -64,7 +66,8 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
           name: partner['name'],
           type: partner['type'],
           contact: '9449320808',
-          imagePath: centerimages[partner['id']],
+          imagePath:
+              partner['id'] > 5 ? centerimages[0] : centerimages[partner['id']],
         ),
       ];
     }
@@ -76,20 +79,26 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
     required String name,
     required int partnerId,
   }) async {
+    ToastContext().init(context);
     final uid = await getUserUID();
     if (uid == -1) {
       print('UID NOT FOUND!');
       return;
     }
-    //TODO: Currently using Local locaion. Use proper location later
+
     LatLng loc = LatLng(12.9198, 77.5777);
-    await TrashTraceBackend().requestJob(
+    final res = await TrashTraceBackend().requestJob(
       name: name,
       status: 'requested',
       loc: loc,
       userId: uid,
       partnerId: partnerId,
     );
+    if (res.result == null) {
+      Toast.show(res.message);
+      return;
+    }
+    Toast.show('Job Booked!');
   }
 
   @override
@@ -166,7 +175,15 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  print('Booking Job');
+                  await bookJob(
+                    partnerId: centre.id,
+                    name: 'RecycleJob Request',
+                  );
+                  print('Job Booked');
+                  widget.onJobBookedCallback();
+                },
                 icon: const Icon(Icons.call_merge),
                 label: const Text('Book'),
               )
@@ -230,7 +247,16 @@ class _RecycleCentreCardState extends State<RecycleCentreCard> {
                             ),
                           ),
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () async {
+                              print(centre.id);
+                              print('Booking Job');
+                              await bookJob(
+                                partnerId: centre.id,
+                                name: 'RecycleJob Request',
+                              );
+                              print('Job Booked');
+                              widget.onJobBookedCallback();
+                            },
                             icon: const Icon(Icons.call_merge),
                             label: const Text('Book'),
                           ),

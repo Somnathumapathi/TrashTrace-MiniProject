@@ -182,17 +182,17 @@ class _HomeState extends State<Home> {
   }
 
   getFAB() {
-    if (pageIndex == 1) {
-      return FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ScanPage()),
-          );
-        },
-        child: const Icon(Icons.qr_code),
-      );
-    }
+    // if (pageIndex == 1) {
+    //   return FloatingActionButton(
+    //     onPressed: () {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(builder: (context) => const ScanPage()),
+    //       );
+    //     },
+    //     child: const Icon(Icons.qr_code),
+    //   );
+    // }
     return null;
   }
 

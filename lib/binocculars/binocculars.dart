@@ -142,7 +142,9 @@ class _BinOccularsState extends State<BinOcculars> {
     locationSubscription = sub!.listen((loc) {
       print('CurrentUserLocUpdated => $loc');
       currentUserPosition = LatLng(loc.latitude!, loc.longitude!);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     setState(() {});
   }
