@@ -1,7 +1,25 @@
+# 11.10.2023
+- Manas:
+    - TrashTag: Added Working Logic to Scan and Add Item to Dusbin & Show updated points!
+    - ReCyclX: Added the MyJobs Section & Job Booking Logic
+    - Backend: Added the Latest Routes
+    - Changed BarCode Scanner => QRCode Scanner along with Permission Requesting Logic
+
+# 22.08.2023
+- Manas:
+    - Changed to Permalink Vercel Hosted Backend as fallback
+    - Login & Register: Added Toast and message showing
+    - backend.dart: Created the ResponseType class to wrap responses
+    - BinOcculars: Addd ErrorHandling
+    - LocationStuff: Added retrying capablity, until user clicks on Always it will keep asking permission. Beyond 5, it will display a text showing please enable location
+
 # 21.08.2023
 - Manas:
     - Created AuthSystem (login, register, logout) along with State persistence
     - Added Ability to Modify Server Link from within the application
+- Somnath:
+    - Changed Binoculars => BinOcculars
+    - Made all the filter buttons into those of equal width
 
 # 20.08.2023
 - Manas:

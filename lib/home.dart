@@ -4,8 +4,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trashtrace/BinOcculars/binocculars.dart';
 import 'package:trashtrace/backend/backend.dart';
-
-import 'package:trashtrace/trashtag/scan.dart';
+import 'package:trashtrace/recyclex/recyclex.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trashtrace/trashtag/trashtaghome.dart';
 import 'package:trashtrace/trashtrace.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,6 +36,13 @@ class _HomeState extends State<Home> {
     3: Image.asset('assets/RecycleXIcon.png'),
   };
 
+  final hcarouselImages = [
+    Image.asset('assets/1.png'),
+    Image.asset('assets/2.png'),
+    Image.asset('assets/3.png'),
+    Image.asset('assets/4.png'),
+  ];
+
   String appBar = 'TrashTrace';
   Widget appBarLogo = Image.asset('assets/TrashTraceIcon1.png');
 
@@ -50,25 +57,30 @@ class _HomeState extends State<Home> {
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Text(
-                  'Welcome to TrashTrace',
-                  style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.brown),
+              CarouselSlider(
+                items: hcarouselImages,
+                options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
                 ),
+              ),
+              Text(
+                'Welcome to TrashTrace',
+                style: GoogleFonts.lato(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.brown),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                'Making Waste Management Better \n                 For Better Tomorrow',
+                'Making Waste Management Better\nFor Better Tomorrow',
                 style: GoogleFonts.lato(
-                    fontSize: 15, color: Color.fromARGB(255, 177, 166, 166)),
+                    fontSize: 15,
+                    color: const Color.fromARGB(255, 177, 166, 166)),
+                textAlign: TextAlign.center,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -111,27 +123,49 @@ class _HomeState extends State<Home> {
                   style: TextStyle(color: Colors.blue),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton.icon(
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              TextButton.icon(
                 onPressed: () async {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.remove('loggedin_username');
                   print('Logged Out!');
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) {
-                      return TrashTrace();
+                      return const TrashTrace();
                     }),
                     (route) => false,
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.blue,
                 ),
-                icon: const Icon(Icons.person),
-                label: const Text('Logout'),
+                label: const Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: Colors.blue, decoration: TextDecoration.underline),
+                ),
               ),
+              // ElevatedButton.icon(
+              //   onPressed: () async {
+              //     final prefs = await SharedPreferences.getInstance();
+              //     await prefs.remove('loggedin_username');
+              //     print('Logged Out!');
+              //     Navigator.of(context).pushAndRemoveUntil(
+              //       MaterialPageRoute(builder: (context) {
+              //         return TrashTrace();
+              //       }),
+              //       (route) => false,
+              //     );
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Colors.red,
+              //   ),
+              //   icon: const Icon(Icons.person),
+              //   label: const Text('Logout'),
+              // ),
             ],
           ),
         ),
@@ -141,28 +175,23 @@ class _HomeState extends State<Home> {
     } else if (pageIndex == 2) {
       return const BinOcculars();
     } else if (pageIndex == 3) {
-      return Center(
-        child: Text(
-          'ReCyclX Home',
-          style: GoogleFonts.luckiestGuy(fontSize: 30, color: Colors.blue),
-        ),
-      );
+      return const RecycleX();
     }
     return const SizedBox();
   }
 
   getFAB() {
-    if (pageIndex == 1) {
-      return FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ScanPage()),
-          );
-        },
-        child: const Icon(Icons.qr_code),
-      );
-    }
+    // if (pageIndex == 1) {
+    //   return FloatingActionButton(
+    //     onPressed: () {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(builder: (context) => const ScanPage()),
+    //       );
+    //     },
+    //     child: const Icon(Icons.qr_code),
+    //   );
+    // }
     return null;
   }
 
@@ -181,7 +210,7 @@ class _HomeState extends State<Home> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text('Change Server Link'),
+                        title: const Text('Change Server Link'),
                         content: Container(
                           child: TextField(
                             controller: serverLinkController,
@@ -203,12 +232,12 @@ class _HomeState extends State<Home> {
                                 setState(() {});
                                 Navigator.pop(context);
                               },
-                              child: Text('Update'))
+                              child: const Text('Update'))
                         ],
                       );
                     });
               },
-              icon: Icon(Icons.data_array)),
+              icon: const Icon(Icons.data_array)),
         ],
       ),
       body: getContent(),
@@ -231,9 +260,9 @@ class _HomeState extends State<Home> {
         tabMargin: const EdgeInsets.all(5),
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
-          GButton(icon: Icons.one_x_mobiledata, text: 'TrashTag'),
+          GButton(icon: Icons.qr_code_scanner, text: 'TrashTag'),
           GButton(icon: Icons.pin_drop_rounded, text: 'BinOcculars'),
-          GButton(icon: Icons.backpack, text: 'RecycleX'),
+          GButton(icon: Icons.recycling, text: 'RecycleX'),
         ],
       ),
       floatingActionButton: getFAB(),

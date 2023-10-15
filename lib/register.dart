@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:trashtrace/login.dart';
 import 'package:trashtrace/utils.dart';
 
@@ -18,6 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final nc = TextEditingController();
   final uc = TextEditingController();
   final pc = TextEditingController();
+  bool showPassword = false;
 
   @override
   void dispose() {
@@ -52,8 +54,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: const InputDecoration(hintText: "Username"),
               ),
               TextField(
+                obscureText: !showPassword,
                 controller: pc,
-                decoration: const InputDecoration(hintText: "Password"),
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          showPassword = !showPassword;
+                        },
+                      );
+                    },
+                    icon: Icon(
+                        showPassword ? Icons.visibility : Icons.visibility_off),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -61,30 +77,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ElevatedButton(
                 child: const Text("Register"),
                 onPressed: () async {
-                  print(uc.text);
-                  print(pc.text);
-                  print(nc.text);
+                  ToastContext().init(context);
+                  Toast.show('Registering!');
                   final res = await TrashTraceBackend().register(
                     username: uc.value.text,
                     name: nc.value.text,
                     password: pc.value.text,
                   );
-                  if (res == true) {
+                  if (res.result == true) {
                     print('Register Successful!');
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString('loggedin_username', uc.text);
                     print('LoginData Saved Successfully!');
+                    Toast.show('Registered!');
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
-                        return Home();
+                        return const Home();
                       }),
                       (route) => false,
                     );
                   } else {
+                    // ignore: use_build_context_synchronously
                     Utils.showUserDialog(
                       context: context,
                       title: 'Register Failed',
-                      content: 'Could be a Server Issue',
+                      content: res.message,
                     );
                   }
                 },

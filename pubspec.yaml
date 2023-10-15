@@ -37,8 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_nav_bar: ^5.0.6
   google_fonts:
-  barcode_scan2: ^4.2.4
+  # barcode_scan2: ^4.2.4
   toast: ^0.3.0
+  qrscan: ^0.3.3
   google_maps_flutter:
   geolocator:
   url_launcher:
@@ -46,6 +47,7 @@ dependencies:
   permission_handler: ^8.1.4+2
   http:
   shared_preferences:
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,18 @@ flutter:
       - assets/TrashTraceIcon1.png
       - assets/BinOccularsLogo.png
       - assets/TrashTagLogo.png
+      - assets/RecycleX1.png
+      - assets/RecycleX2.png
+      - assets/RecycleX3.png
+      - assets/RecycleX4.png
+      - assets/RecycleXpt.jpeg
+      - assets/1.png
+      - assets/2.png
+      - assets/3.png
+      - assets/4.png
+      - assets/RecycleXpt1.jpg
+      - assets/RecycleXpt2.jpeg
+      - assets/RecycleXpt3.webp
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
